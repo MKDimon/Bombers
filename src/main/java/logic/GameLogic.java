@@ -3,7 +3,6 @@ package logic;
 import base.Bomber;
 import base.EventType;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,11 +31,13 @@ public class GameLogic {
         for (Integer item: GDXController.getList1()) {
             if (Gdx.input.isKeyPressed(item)) {
                 bombers.get(0).action(GDXController.getEventTypeOne(item));
+                System.out.printf(item.toString());
             }
         }
         for (Integer item: GDXController.getList2()) {
             if (Gdx.input.isKeyPressed(item)) {
                 bombers.get(1).action(GDXController.getEventTypeTwo(item));
+                System.out.printf(item.toString());
             }
         }
     }

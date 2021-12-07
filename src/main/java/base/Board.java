@@ -3,10 +3,10 @@ package base;
 import item.AbstractItem;
 
 public class Board {
+
     private final Cell[][] gameMap;
 
     public Board(Cell[][] gameMap) {
-        //TODO: Сервисом
         this.gameMap = gameMap;
     }
 
@@ -16,5 +16,9 @@ public class Board {
 
     public void setItem(int x, int y, AbstractItem item) {
         gameMap[x][y].setItem(item);
+    }
+
+    public Cell[][] getGameMap() {
+        return gameMap;
     }
 }

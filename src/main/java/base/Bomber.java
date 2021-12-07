@@ -16,17 +16,18 @@ public class Bomber {
     private int maxCountBombs = 1;
     private int curCountBombs = 0;
 
-    private Board board;
+    private final Board board;
 
     private double collisionRadius = 0.3;
 
-    private BombService bombService;
+    private final BombService bombService;
 
     public Bomber(double x, double y, Board board, BombService bombService) {
         this.x = x;
         this.y = y;
         this.board = board;
         this.bombService = bombService;
+        bombService.addBomber(this);
     }
 
     public void action(EventType event) {
