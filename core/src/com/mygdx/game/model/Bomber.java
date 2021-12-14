@@ -1,12 +1,7 @@
 package com.mygdx.game.model;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -83,51 +78,17 @@ public class Bomber {
             curCountBombs++;
         }
         else {
-            if(event == EventType.MOVE_LEFT){
-                //установка на строку анимации соответсвующую движению
-                bomberAnimation.setFrameY(2);
-
-                //смотрим на две крайние точки, смотрим не пересекают ли они другие предметы
-                if (
-                    board.itemActivate(xCenter-1, yCenter,this)&&
-                    board.itemActivate(xCenter-1, yCenter+1,this)&&
-                    board.itemActivate(xCenter-1, yCenter-1,this)
-
-                ) {
-                    move(-1*speed,0);
-                }
-                //если предметы дали добро, то
-                // изменять позицию бомбера
-            }
-            else if(event == EventType.MOVE_RIGHT){
-                bomberAnimation.setFrameY(1);
-                if(
-                    board.itemActivate(xCenter+1, yCenter,this)&&
-                    board.itemActivate(xCenter+1, yCenter+1,this)&&
-                    board.itemActivate(xCenter+1, yCenter-1,this)
-                ){
-                    move(1*speed,0);
-                }
-            }
-            else if(event == EventType.MOVE_DOWN){
-                bomberAnimation.setFrameY(0);
-                if(
-                    board.itemActivate(xCenter, yCenter-1,this)&&
-                    board.itemActivate(xCenter+1, yCenter-1,this)&&
-                    board.itemActivate(xCenter-1, yCenter-1,this)
-                ){
-                    move(0,-1*speed);
-                }
-            }
-            else if(event == EventType.MOVE_UP){
-                bomberAnimation.setFrameY(3);
-                if(
-                    board.itemActivate(xCenter, yCenter+1,this)&&
-                    board.itemActivate(xCenter-1, yCenter+1,this)&&
-                    board.itemActivate(xCenter+1, yCenter+1,this)
-                ){
-                    move(0,1*speed);
-                }
+            bomberAnimation.setFrameY(event.getFrameId());
+            // Смотрим клетку по направлению движения и
+            // клетки слева и справа
+            if (board.itemActivate(xCenter + event.getX() + event.getY(),
+                            yCenter + event.getY() + event.getX(), this) &&
+                board.itemActivate(xCenter + event.getX() - event.getY(),
+                            yCenter + event.getY() - event.getX(), this) &&
+                board.itemActivate(xCenter + event.getX(),
+                            yCenter + event.getY(), this))
+            {
+                move(event.getX() * speed, event.getY() * speed);
             }
         }
     }

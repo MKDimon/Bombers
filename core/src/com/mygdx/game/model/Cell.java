@@ -11,33 +11,37 @@ public class Cell {
     private final int x;
     private final int y;
     private Rectangle boardCell;
+
     public Cell(AbstractItem item, int  x, int y) {
         this.item = item;
         this.x = x;
         this.y = y;
         boardCell = new Rectangle(x*16, y*16, 16,16);
     }
-//клетка знает о себе, но не знает какую сторону бомбера проверять, видимо нужно чтобы это проверялось еще до, а это получается нужно дергать клетку аж в бомбера, что видимо есть плохо
+
+    // клетка знает о себе, но не знает какую сторону бомбера проверять, видимо нужно чтобы это проверялось еще до, а
+    // это получается нужно дергать клетку аж в бомбера, что видимо есть плохо
     public boolean changeParams(Bomber bomber) {
-        if(item == null){
+        if(item == null) {
             return true;
         }
-        if(bomber == null){
+        if(bomber == null) {
 
         }
         //
-        if(boardCell.contains(bomber.getBoardBomber().x, bomber.getBoardBomber().y) ||
-           boardCell.contains(bomber.getBoardBomber().x, bomber.getBoardBomber().y+bomber.getBoardBomber().getHeight()-1) ||
-           boardCell.contains(bomber.getBoardBomber().x+bomber.getBoardBomber().getWidth()-1, bomber.getBoardBomber().y+bomber.getBoardBomber().getHeight()-1) ||
-           boardCell.contains(bomber.getBoardBomber().x+bomber.getBoardBomber().getWidth()-1, bomber.getBoardBomber().y)
-        ){
+        Rectangle bomberRect = bomber.getBoardBomber();
+        if(boardCell.contains(bomberRect.x, bomberRect.y) ||
+           boardCell.contains(bomberRect.x, bomberRect.y+bomberRect.getHeight()-1) ||
+           boardCell.contains(bomberRect.x+bomberRect.getWidth()-1, bomberRect.y+bomberRect.getHeight()-1) ||
+           boardCell.contains(bomberRect.x+bomberRect.getWidth()-1, bomberRect.y) )
+        {
             return item.changeParams(this, bomber);
         }
         return true;
     }
 
     public void render(SpriteBatch batch){
-        if(item!=null){
+        if(item!=null) {
             item.render(batch, x*16, y*16);
         }
     }

@@ -71,7 +71,7 @@ public class BoardService {
 
         for(Cell[] cells1: cells) {
             for (Cell cell: cells1) {
-                if (result == null && cell.itemIsNull()) {
+                if (cell.itemIsNull()) {
                     result = cell;
                     if (type) return result;
                 }

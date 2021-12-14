@@ -11,14 +11,12 @@ import java.util.List;
 import java.util.Queue;
 
 public class GameLogic {
-    private Queue<EventType> eventQueue;
     private boolean gameBegin;
-    private List<Bomber> bombers;
+    private final List<Bomber> bombers;
 
     public GameLogic(List<Bomber> bombers) {
         this.bombers = bombers;
         gameBegin = false;
-        eventQueue = new LinkedList<EventType>();
     }
 
     public void start() {
