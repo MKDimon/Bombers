@@ -41,6 +41,12 @@ public class GameLogic {
         }
     }
 
+    public void checkTime(long time){
+        for(Bomber bomber : bombers){
+            bomber.checkTime(time);
+        }
+    }
+
     public void render(SpriteBatch batch){
         for(Bomber bomber : bombers){
             bomber.render(batch);

@@ -9,21 +9,26 @@ import com.mygdx.game.model.Bomber;
 import com.mygdx.game.model.Cell;
 
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class Bomb implements AbstractItem {
     private final int x;
     private final int y;
     private final int radius;
-    private float time;
+    private float timeAnimation = 2;
     private Texture texture;
     private Animator animator;
-    public Bomb(int x, int y, int radius) {
+    private long timeCreate;
+    private long animationTime;
+
+    public Bomb(int x, int y, int radius, long timeCreate) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         texture = new Texture("bomb.png");
-        time = 3;
-        animator = new Animator(new TextureRegion(texture), 1, 3, time);
+        this.timeCreate = timeCreate;
+        this.animationTime = timeCreate;
+        animator = new Animator(new TextureRegion(texture), 1, 3, timeAnimation);
     }
 
     public int getX() {
@@ -34,8 +39,8 @@ public class Bomb implements AbstractItem {
         return y;
     }
 
-    public float getTime() {
-        return time;
+    public long getTimeCreate() {
+        return timeCreate;
     }
 
     public int getRadius() {
@@ -50,6 +55,10 @@ public class Bomb implements AbstractItem {
     @Override
     public void render(SpriteBatch batch, float x, float y) {
         batch.draw(animator.getFrame(), x, y);
-        animator.update(0.8f);
+        long current = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        if(current - animationTime > 1){
+            animationTime = current;
+            animator.update(1);
+        }
     }
 }

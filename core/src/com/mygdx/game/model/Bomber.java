@@ -15,7 +15,11 @@ import com.mygdx.game.Animator;
 import com.mygdx.game.item.AbstractItem;
 import com.mygdx.game.logic.BombService;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class Bomber {
     //это для преобрзования координат в [][], соотвествует размеру квадратика одной клетки
@@ -38,6 +42,7 @@ public class Bomber {
     private int radius               = 1;
     //бессмертие
     private boolean immortal         = false;
+    private boolean live             = false;
     //максимальное количество бомб
     private int maxCountBombs        = 1;
     //текущее количество бомб
@@ -48,6 +53,9 @@ public class Bomber {
 
     //сервис ответственный за взрыв бомбы
     private final BombService bombService;
+
+    private long reloadingTime        = 2;
+    private List<Long> createBombTime = new ArrayList<>();
 
     public Bomber(int x, int y, Board board, BombService bombService) {
 
@@ -69,7 +77,9 @@ public class Bomber {
         int xCenter = (int)centerBomber.x/sizePx;
         int yCenter = (int)centerBomber.y/sizePx;
         if (event == EventType.SET_BOMB && curCountBombs != maxCountBombs) {
-            bombService.createBomb(board, radius, xCenter, yCenter);
+            long timeCreate = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+            createBombTime.add(timeCreate);
+            bombService.createBomb(board, radius, xCenter, yCenter, timeCreate);
             curCountBombs++;
         }
         else {
@@ -117,6 +127,18 @@ public class Bomber {
                     board.itemActivate(xCenter+1, yCenter+1,this)
                 ){
                     move(0,1*speed);
+                }
+            }
+        }
+    }
+
+    public void checkTime(long currentTime){
+        if(curCountBombs > 0){
+            Iterator<Long> iterator = createBombTime.iterator();
+            while (iterator.hasNext()){
+                if(currentTime - iterator.next() > reloadingTime){
+                    curCountBombs--;
+                    iterator.remove();
                 }
             }
         }
@@ -198,5 +220,9 @@ public class Bomber {
     @Override
     public int hashCode() {
         return Objects.hash(pos, bomberAnimation, texture, boardBomber, speed, radius, immortal, maxCountBombs, curCountBombs, board, bombService);
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
     }
 }

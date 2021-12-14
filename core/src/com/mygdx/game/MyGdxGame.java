@@ -15,6 +15,7 @@ import com.mygdx.game.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 //это местный мейн, в create происходить создание
 //в рендер отрисовка
@@ -25,6 +26,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private BackGround backGround;
 	private Board board;
 	private GameLogic gameLogic;
+	private BombService bombService;
 
 
 
@@ -33,7 +35,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		batch = new SpriteBatch();
 		backGround = new BackGround();
-		BombService bombService = new BombService();
+		bombService = new BombService();
 		board = BoardService.createBoard("testMap.txt");
 
 		Cell one = BoardService.getEmptyCell(board, false);
@@ -62,9 +64,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public void update(){
 		//сюда нужно добавить таймер и если будет 3 секунды то взрыв
-		//getTime();
+		long currentTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 		gameLogic.checkEvent();
-
+		gameLogic.checkTime(currentTime);
+		bombService.explode(board, currentTime);
 		//тут будет описана логика обновлений игры
 	}
 

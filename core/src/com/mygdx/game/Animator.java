@@ -35,6 +35,7 @@ public class Animator {
         this.frameColl = frameColl;
         maxFrameTime = cycleTime / frameColl;
         System.out.println(maxFrameTime);
+        currentFrameTime = 0;
         frameX = 0;
         frameY = 0;
     }
@@ -44,14 +45,20 @@ public class Animator {
     }
 
     public void update(float dt){
+
         currentFrameTime += dt;
-        if (currentFrameTime > maxFrameTime){
+        if (currentFrameTime >= maxFrameTime){
+        System.out.println("CurrentFrameTime "+currentFrameTime);
             frameX++;
             currentFrameTime = 0;
         }
-        if (frameX >= frameRow){
+        if (frameX >= frameColl){
             frameX = 0;
         }
+    }
+
+    public int getFrameX() {
+        return frameX;
     }
 
     public  TextureRegion getFrame(){

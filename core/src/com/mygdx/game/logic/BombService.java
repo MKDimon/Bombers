@@ -7,32 +7,27 @@ import com.mygdx.game.model.Bomber;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class BombService {
     private final List<Bomber> bombers = new ArrayList<>();
+    private final List<Bomb> bombs = new ArrayList<>();
+    private long timeExplode = 4;
 
-    public boolean createBomb(Board board, int radius, int x, int y) {
 
-        Bomb bomb = new Bomb(x, y, radius);
+    public boolean createBomb(Board board, int radius, int x, int y, long timeCreate) {
+
+        Bomb bomb = new Bomb(x, y, radius, timeCreate);
         board.setItem(x,y, bomb);
-        //создали бомбу
-        //для нее сделали время создания
-        //следим за временем игры
-        //если время - время создания > time
-        //explode!
-        explode(board, radius, x,y);
+        bombs.add(bomb);
         return true;
     }
 
-    private boolean explode(Board board, int radius, int x, int y) {
-        //TODO: таймер и тд
-        for(int i = 0; i < radius; i++){
-            //а еще нужно отслеживать что индекс не ушел за границу
-            //короче тут вообще все туманно максимально
-            board.itemActivate(x+i, y, null);
-            board.itemActivate(x, y+i, null);
-            board.itemActivate(x-i, y, null);
-            board.itemActivate(x, y-i, null);
+    public boolean explode(Board board, long currentTime) {
+        for(Bomb bomb : bombs){
+            if(currentTime - bomb.getTimeCreate() > timeExplode){
+                board.setItem(bomb.getX(), bomb.getY(), null);
+            }
         }
         return true;
     }
