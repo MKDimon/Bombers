@@ -22,6 +22,9 @@ public class Cell {
         if(item == null){
             return true;
         }
+        if(bomber == null){
+
+        }
         //
         if(boardCell.contains(bomber.getBoardBomber().x, bomber.getBoardBomber().y) ||
            boardCell.contains(bomber.getBoardBomber().x, bomber.getBoardBomber().y+bomber.getBoardBomber().getHeight()-1) ||

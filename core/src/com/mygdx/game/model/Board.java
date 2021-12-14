@@ -20,8 +20,6 @@ public class Board {
     }
 
     public boolean itemActivate(int x, int y, Bomber bomber) {
-        //получает координаты точки которую нужно пробить
-        //
         return gameMap[x][y].changeParams(bomber);
     }
 

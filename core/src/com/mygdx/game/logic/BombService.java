@@ -10,19 +10,30 @@ import java.util.List;
 
 public class BombService {
     private final List<Bomber> bombers = new ArrayList<>();
-//я тут вписал какие то пиксели но на самом деле я не помню, посмотри сперва, наверное я хотел чтобы бомбу можно выставлять даже если
-//бомбер стоит непонятно где, вообще мне кажется ставить ее нужно на центр бомбера, там у Rectangle boardBomber есть метод getCenter()
-//если что все координаты в библиотеке float
-    public boolean createBomb(Board board, int radius, float x, float y) {
-        //TODO: проверку на количество бомб и тд
-        Bomb bomb = new Bomb((int)x/16, (int)y/16, radius);
-        board.setItem((int)x/16,(int)y/16, bomb);
-        explode((int)x/16,(int)y/16);
+
+    public boolean createBomb(Board board, int radius, int x, int y) {
+
+        Bomb bomb = new Bomb(x, y, radius);
+        board.setItem(x,y, bomb);
+        //создали бомбу
+        //для нее сделали время создания
+        //следим за временем игры
+        //если время - время создания > time
+        //explode!
+        explode(board, radius, x,y);
         return true;
     }
 
-    private boolean explode(int x, int y) {
+    private boolean explode(Board board, int radius, int x, int y) {
         //TODO: таймер и тд
+        for(int i = 0; i < radius; i++){
+            //а еще нужно отслеживать что индекс не ушел за границу
+            //короче тут вообще все туманно максимально
+            board.itemActivate(x+i, y, null);
+            board.itemActivate(x, y+i, null);
+            board.itemActivate(x-i, y, null);
+            board.itemActivate(x, y-i, null);
+        }
         return true;
     }
 

@@ -21,7 +21,7 @@ public class Animator {
     //отдельный кадр анимации
     private int frameX;
     private int frameY;
-//беда в создании массива, копаться в этом направлении
+
     public Animator(TextureRegion region, int frameRow, int frameColl, float cycleTime){
         walkFrames = new TextureRegion[frameRow][frameColl];
         int frameWidth = region.getRegionWidth() / frameColl;
@@ -33,7 +33,8 @@ public class Animator {
         }
         this.frameRow = frameRow;
         this.frameColl = frameColl;
-        maxFrameTime = cycleTime / frameRow;
+        maxFrameTime = cycleTime / frameColl;
+        System.out.println(maxFrameTime);
         frameX = 0;
         frameY = 0;
     }

@@ -3,7 +3,10 @@ package com.mygdx.game.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -27,7 +30,8 @@ public class Bomber {
     private Rectangle boardBomber;
 
     //скорость передвижения
-    private float speed              = 5;
+    private float speed              = 0.5f;
+    private float speedCycle         = 12;
     //скорость цикла анимации
     private float speedAnimation     = 0.3f;
     //радиус взрыва
@@ -53,21 +57,22 @@ public class Bomber {
 
         pos = new Vector2(sizePx * x, sizePx * y);
         texture = new Texture("bomberSprite.png");
-        bomberAnimation = new Animator(new TextureRegion(texture), 4, 6, speed);
+
+        bomberAnimation = new Animator(new TextureRegion(texture), 4, 6, speedCycle);
         boardBomber = new Rectangle(pos.x+2, pos.y+2, 13,13);
     }
 
     //задача action выполнить действие пришедшее от пользователя
     public void action(EventType event) {
-        if (event == EventType.SET_BOMB) {
-            bombService.createBomb(board, radius, pos.x, pos.y);
+        Vector2 centerBomber = new Vector2();
+        boardBomber.getCenter(centerBomber);
+        int xCenter = (int)centerBomber.x/sizePx;
+        int yCenter = (int)centerBomber.y/sizePx;
+        if (event == EventType.SET_BOMB && curCountBombs != maxCountBombs) {
+            bombService.createBomb(board, radius, xCenter, yCenter);
+            curCountBombs++;
         }
         else {
-            Vector2 centerBomber = new Vector2();
-            boardBomber.getCenter(centerBomber);
-            int xCenter = (int)centerBomber.x/sizePx;
-            int yCenter = (int)centerBomber.y/sizePx;
-            System.out.println("Bomber center: " + xCenter + " " + yCenter);
             if(event == EventType.MOVE_LEFT){
                 //установка на строку анимации соответсвующую движению
                 bomberAnimation.setFrameY(2);
@@ -79,8 +84,7 @@ public class Bomber {
                     board.itemActivate(xCenter-1, yCenter-1,this)
 
                 ) {
-                    //координаты пока фейковые
-                    move(-1,0);
+                    move(-1*speed,0);
                 }
                 //если предметы дали добро, то
                 // изменять позицию бомбера
@@ -92,7 +96,7 @@ public class Bomber {
                     board.itemActivate(xCenter+1, yCenter+1,this)&&
                     board.itemActivate(xCenter+1, yCenter-1,this)
                 ){
-                    move(1,0);
+                    move(1*speed,0);
                 }
             }
             else if(event == EventType.MOVE_DOWN){
@@ -102,7 +106,7 @@ public class Bomber {
                     board.itemActivate(xCenter+1, yCenter-1,this)&&
                     board.itemActivate(xCenter-1, yCenter-1,this)
                 ){
-                    move(0,-1);
+                    move(0,-1*speed);
                 }
             }
             else if(event == EventType.MOVE_UP){
@@ -112,12 +116,11 @@ public class Bomber {
                     board.itemActivate(xCenter-1, yCenter+1,this)&&
                     board.itemActivate(xCenter+1, yCenter+1,this)
                 ){
-                    move(0,1);
+                    move(0,1*speed);
                 }
             }
         }
     }
-    //как
 
     //отрисовывает бомбера
     public void render(SpriteBatch batch){
@@ -137,9 +140,11 @@ public class Bomber {
         pos.y += y;
         boardBomber.x += x;
         boardBomber.y += y;
-        System.out.println("posBomber = ("+pos.x + " " + pos.y+")");
-        System.out.println("posBorderBomber = ("+boardBomber.x + " " + boardBomber.y+")");
-        bomberAnimation.update(0.3f);
+        bomberAnimation.update(speedAnimation);
+    }
+
+    public Texture getTexture() {
+        return texture;
     }
 
     public double getSpeed() {

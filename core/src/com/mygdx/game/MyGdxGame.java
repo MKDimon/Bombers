@@ -1,7 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.logic.BoardService;
@@ -23,41 +27,32 @@ public class MyGdxGame extends ApplicationAdapter {
 	private GameLogic gameLogic;
 
 
+
 	@Override
 	public void create () {
 
-		/*
-
-
-        Bomber bomberOne = new Bomber(one.getX(), one.getY(), board, bombService);
-        Bomber bomberTwo = new Bomber(two.getX(), two.getY(), board, bombService);
-
-        List<Bomber> bombers = new ArrayList<>();
-        bombers.add(bomberOne); bombers.add(bomberTwo);
-
-        GameLogic gameLogic = new GameLogic(bombers);
-
-        gameLogic.start();*/
 		batch = new SpriteBatch();
 		backGround = new BackGround();
 		BombService bombService = new BombService();
 		board = BoardService.createBoard("testMap.txt");
 
-		Cell one = BoardService.getEmptyCell(board, true);
-		//Cell two = BoardService.getEmptyCell(board, false);
+		Cell one = BoardService.getEmptyCell(board, false);
+		Cell two = BoardService.getEmptyCell(board, true);
 
 		Bomber bomberOne = new Bomber(one.getX(), one.getY(), board, bombService);
+		Bomber bomberTwo = new Bomber(two.getX(), two.getY(), board, bombService);
+
 		List<Bomber> bombers = new ArrayList<>();
 		bombers.add(bomberOne);
+		bombers.add(bomberTwo);
 
 		gameLogic = new GameLogic(bombers);
-		//Bomber bomberTwo = new Bomber();
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1, 1, 1, 1);
 		update();
+
 		batch.begin();
 		backGround.render(batch);
 		board.render(batch);
@@ -66,7 +61,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void update(){
+		//сюда нужно добавить таймер и если будет 3 секунды то взрыв
+		//getTime();
 		gameLogic.checkEvent();
+
 		//тут будет описана логика обновлений игры
 	}
 
