@@ -25,21 +25,22 @@ public class Cell {
         if(item == null) {
             return true;
         }
-        if(bomber == null) {
-
-        }
         //
-        Rectangle bomberRect = bomber.getBoardBomber();
-        if(boardCell.contains(bomberRect.x, bomberRect.y) ||
-           boardCell.contains(bomberRect.x, bomberRect.y+bomberRect.getHeight()-1) ||
-           boardCell.contains(bomberRect.x+bomberRect.getWidth()-1, bomberRect.y+bomberRect.getHeight()-1) ||
-           boardCell.contains(bomberRect.x+bomberRect.getWidth()-1, bomberRect.y) )
+        if(containsBomber(bomber))
         {
             return item.changeParams(this, bomber);
         }
         return true;
     }
 
+    public boolean containsBomber(Bomber bomber){
+        Rectangle bomberRect = bomber.getBoardBomber();
+        return boardCell.contains(bomberRect.x, bomberRect.y) ||
+                boardCell.contains(bomberRect.x, bomberRect.y+bomberRect.getHeight()-1) ||
+                boardCell.contains(bomberRect.x+bomberRect.getWidth()-1, bomberRect.y+bomberRect.getHeight()-1) ||
+                boardCell.contains(bomberRect.x+bomberRect.getWidth()-1, bomberRect.y);
+
+    }
     public void render(SpriteBatch batch){
         if(item!=null) {
             item.render(batch, x*16, y*16);

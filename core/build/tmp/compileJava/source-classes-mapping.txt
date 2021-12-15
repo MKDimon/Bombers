@@ -1,11 +1,13 @@
-com/mygdx/game/Animator.java
- com.mygdx.game.Animator
+com/mygdx/game/model/BackGround.java
+ com.mygdx.game.model.BackGround
 com/mygdx/game/model/EventType.java
  com.mygdx.game.model.EventType
 com/mygdx/game/logic/GDXController.java
  com.mygdx.game.logic.GDXController
-com/mygdx/game/model/BackGround.java
- com.mygdx.game.model.BackGround
+com/mygdx/game/logic/GameLogic.java
+ com.mygdx.game.logic.GameLogic
+com/mygdx/game/Animator.java
+ com.mygdx.game.Animator
 com/mygdx/game/logic/BombService.java
  com.mygdx.game.logic.BombService
 com/mygdx/game/item/Wall.java
@@ -32,7 +34,5 @@ com/mygdx/game/item/Sword.java
  com.mygdx.game.item.Sword
 com/mygdx/game/logic/BoardService.java
  com.mygdx.game.logic.BoardService
-com/mygdx/game/logic/GameLogic.java
- com.mygdx.game.logic.GameLogic
 com/mygdx/game/model/Bomber.java
  com.mygdx.game.model.Bomber

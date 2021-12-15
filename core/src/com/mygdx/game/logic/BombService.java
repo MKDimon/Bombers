@@ -33,14 +33,12 @@ public class BombService {
     }
 
     public boolean explode(long currentTime) {
-        Iterator<Bomb> itBomb = bombs.iterator();
-        while (itBomb.hasNext()){
-            Bomb bomb = itBomb.next();
-            if(currentTime - bomb.getTimeCreating() > timeExplodeBomb) {
+        for (Bomb bomb : bombs) {
+            if (currentTime - bomb.getTimeCreating() > timeExplodeBomb) {
                 ExplodeWave wave = new ExplodeWave(bomb.getX(), bomb.getY(), bomb.getRadius(), currentTime, explodeTexturePath);
                 board.setItem(bomb.getX(), bomb.getY(), wave);
+                //здесь нужно добавить добавление волн
                 waves.add(wave);
-                itBomb.remove();
             }
         }
         return true;
@@ -52,8 +50,10 @@ public class BombService {
             ExplodeWave wave = itWave.next();
             for (Bomber bomber: bombers) {
                 for (int i = 0; i < wave.getRadius()*2 + 1; i++) {
-                    board.itemActivate(wave.getX() - wave.getRadius() + i, wave.getY(), bomber);
-                    board.itemActivate(wave.getX(), wave.getY() - wave.getRadius() + i, bomber);
+                    if (board.contains(wave.getX() - wave.getRadius() + i, wave.getY(), bomber) ||
+                    board.contains(wave.getX(), wave.getY() - wave.getRadius() + i, bomber)) {
+                        bomber.dead();
+                    }
                 }
             }
             if (currentTime - wave.getTimeCreating() > timeExplodeWave) {

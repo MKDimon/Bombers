@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.item.AbstractItem;
+import com.mygdx.game.item.Bomb;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,6 +25,10 @@ public class Board {
             return false;
         }
         return gameMap[x][y].changeParams(bomber);
+    }
+
+    public boolean contains(int x, int y, Bomber bomber){
+        return gameMap[x][y].containsBomber(bomber);
     }
 
     public void render(SpriteBatch batch){
