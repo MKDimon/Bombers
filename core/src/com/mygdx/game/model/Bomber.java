@@ -37,6 +37,8 @@ public class Bomber {
     //радиус взрыва
     private int radius               = 1;
     //бессмертие
+    private long timeGetImmortal;
+    private long timeActiveImmortal  = 10;
     private boolean immortal         = false;
     private boolean live             = true;
     //максимальное количество бомб
@@ -106,6 +108,9 @@ public class Bomber {
                 }
             }
         }
+        if (currentTime - timeGetImmortal >= timeActiveImmortal) {
+            immortal = false;
+        }
     }
 
     //отрисовывает бомбера
@@ -117,8 +122,11 @@ public class Bomber {
         batch.draw(bomberAnimation.getFrame(), pos.x, pos.y);
     }
 
-    private void addParam(AbstractItem item) {
-
+    public void addParam(int radius, float speed, boolean immortal) {
+        this.radius += radius;
+        this.speed += speed;
+        this.immortal |= immortal;
+        timeGetImmortal = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
     }
 
     public Rectangle getBoardBomber() {
@@ -203,8 +211,10 @@ public class Bomber {
     }
 
     public void dead() {
+        if (immortal) {
+            return;
+        }
         bomberAnimation = new Animator(new TextureRegion(textureDead), 1, 5, speedCycle);
-
         this.live = false;
     }
 

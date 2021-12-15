@@ -26,7 +26,7 @@ public class Cell {
             return true;
         }
         //
-        if(containsBomber(bomber))
+        if(bomber == null || containsBomber(bomber))
         {
             return item.changeParams(this, bomber);
         }

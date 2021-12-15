@@ -7,11 +7,17 @@ import com.mygdx.game.model.Bomber;
 import com.mygdx.game.model.Cell;
 
 public class Boots implements AbstractItem {
-    private Texture texture;
-    public Boots(){}
+    private final Texture texture;
+    public Boots() {
+        texture = new Texture("Boots.png");
+    }
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
-        return false;
+        if (bomber != null) {
+            bomber.addParam(0, 0.2f, false);
+            cell.setItem(null);
+        }
+        return true;
     }
 
     @Override

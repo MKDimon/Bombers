@@ -6,12 +6,17 @@ import com.mygdx.game.model.Bomber;
 import com.mygdx.game.model.Cell;
 
 public class Sword implements AbstractItem {
-    private Texture texture;
+    private Texture texture = new Texture("explodeWaveEnd.png");
 
     public Sword(){}
+
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
-        return false;
+        if (bomber != null) {
+            bomber.addParam(1, 0, false);
+            cell.setItem(null);
+        }
+        return true;
     }
 
     @Override
