@@ -30,8 +30,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		board = BoardService.createBoard("testMap.txt");
 		bombService = new BombService(board);
 
-		Cell one = BoardService.getEmptyCell(board, false);
-		Cell two = BoardService.getEmptyCell(board, true);
+		Cell one = BoardService.getEmptyCell(board, true);
+		Cell two = BoardService.getEmptyCell(board, false);
 
 		Bomber bomberOne = new Bomber(one.getX(), one.getY(), board, bombService, "bomberSpritePlayer1.png", "DeadSpritePlayer1.png");
 		Bomber bomberTwo = new Bomber(two.getX(), two.getY(), board, bombService, "bomberSpritePlayer2.png", "DeadSpritePlayer2.png");
