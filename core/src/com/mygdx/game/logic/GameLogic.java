@@ -11,19 +11,10 @@ import java.util.List;
 import java.util.Queue;
 
 public class GameLogic {
-    private boolean gameBegin;
     private final List<Bomber> bombers;
 
     public GameLogic(List<Bomber> bombers) {
         this.bombers = bombers;
-        gameBegin = false;
-    }
-
-    public void start() {
-        gameBegin = true;
-        while(gameBegin) {
-            checkEvent();
-        }
     }
 
     public void checkEvent() {
@@ -51,12 +42,11 @@ public class GameLogic {
         }
     }
 
-    public boolean isGameBegin() {
-        return gameBegin;
+    public boolean gameEnd() {
+        int count = 0;
+        for (Bomber bomber: bombers) {
+            count += (bomber.getLive())? 1 : 0;
+        }
+        return count == 1;
     }
-
-    public void setGameBegin(boolean gameBegin) {
-        this.gameBegin = gameBegin;
-    }
-
 }

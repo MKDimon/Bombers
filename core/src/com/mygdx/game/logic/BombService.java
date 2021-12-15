@@ -2,12 +2,12 @@ package com.mygdx.game.logic;
 
 
 import com.mygdx.game.item.Bomb;
+import com.mygdx.game.item.ExplodeWave;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Bomber;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class BombService {
     private final List<Bomber> bombers = new ArrayList<>();
@@ -26,7 +26,7 @@ public class BombService {
     public boolean explode(Board board, long currentTime) {
         for(Bomb bomb : bombs){
             if(currentTime - bomb.getTimeCreate() > timeExplode){
-                board.setItem(bomb.getX(), bomb.getY(), null);
+                board.setItem(bomb.getX(), bomb.getY(), new ExplodeWave("explode.png"));
             }
         }
         return true;

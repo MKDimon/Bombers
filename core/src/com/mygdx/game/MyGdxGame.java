@@ -28,8 +28,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	private GameLogic gameLogic;
 	private BombService bombService;
 
-
-
 	@Override
 	public void create () {
 
@@ -63,12 +61,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void update(){
-		//сюда нужно добавить таймер и если будет 3 секунды то взрыв
-		long currentTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-		gameLogic.checkEvent();
-		gameLogic.checkTime(currentTime);
-		bombService.explode(board, currentTime);
-		//тут будет описана логика обновлений игры
+		if (!gameLogic.gameEnd()) {
+			//сюда нужно добавить таймер и если будет 3 секунды то взрыв
+			long currentTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+			gameLogic.checkEvent();
+			gameLogic.checkTime(currentTime);
+			bombService.explode(board, currentTime);
+			//тут будет описана логика обновлений игры
+		}
 	}
 
 	@Override

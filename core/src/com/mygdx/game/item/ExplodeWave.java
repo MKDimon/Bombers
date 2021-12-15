@@ -9,13 +9,18 @@ public class ExplodeWave implements AbstractItem{
 
     private Texture texture;
 
+    public ExplodeWave(String pathToTexture) {
+        texture = new Texture(pathToTexture);
+    }
+
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
+        bomber.dead();
         return true;
     }
 
     @Override
     public void render(SpriteBatch batch, float x, float y) {
-
+        batch.draw(texture, x, y);
     }
 }

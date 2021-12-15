@@ -25,6 +25,7 @@ public class Bomber {
     private Animator bomberAnimation;
     //спрайт бомбера
     private Texture texture;
+    private Texture textureDead;
     //границы бомбера
     private Rectangle boardBomber;
 
@@ -37,7 +38,7 @@ public class Bomber {
     private int radius               = 1;
     //бессмертие
     private boolean immortal         = false;
-    private boolean live             = false;
+    private boolean live             = true;
     //максимальное количество бомб
     private int maxCountBombs        = 1;
     //текущее количество бомб
@@ -60,6 +61,7 @@ public class Bomber {
 
         pos = new Vector2(sizePx * x, sizePx * y);
         texture = new Texture("bomberSprite.png");
+        textureDead = new Texture("DeadSprite.png");
 
         bomberAnimation = new Animator(new TextureRegion(texture), 4, 6, speedCycle);
         boardBomber = new Rectangle(pos.x+2, pos.y+2, 13,13);
@@ -67,6 +69,7 @@ public class Bomber {
 
     //задача action выполнить действие пришедшее от пользователя
     public void action(EventType event) {
+        if (!live) { return; }
         Vector2 centerBomber = new Vector2();
         boardBomber.getCenter(centerBomber);
         int xCenter = (int)centerBomber.x/sizePx;
@@ -183,7 +186,11 @@ public class Bomber {
         return Objects.hash(pos, bomberAnimation, texture, boardBomber, speed, radius, immortal, maxCountBombs, curCountBombs, board, bombService);
     }
 
-    public void setLive(boolean live) {
-        this.live = live;
+    public void dead() {
+        bomberAnimation = new Animator(new TextureRegion(textureDead), 1, 5, speedCycle);
+
+        this.live = false;
     }
+
+    public boolean getLive() { return live; }
 }

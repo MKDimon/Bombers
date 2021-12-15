@@ -1,11 +1,11 @@
-com/mygdx/game/model/BackGround.java
- com.mygdx.game.model.BackGround
 com/mygdx/game/Animator.java
  com.mygdx.game.Animator
 com/mygdx/game/model/EventType.java
  com.mygdx.game.model.EventType
 com/mygdx/game/logic/GDXController.java
  com.mygdx.game.logic.GDXController
+com/mygdx/game/model/BackGround.java
+ com.mygdx.game.model.BackGround
 com/mygdx/game/logic/BombService.java
  com.mygdx.game.logic.BombService
 com/mygdx/game/item/Wall.java
