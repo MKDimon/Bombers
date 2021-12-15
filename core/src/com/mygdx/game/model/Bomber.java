@@ -77,7 +77,7 @@ public class Bomber {
         if (event == EventType.SET_BOMB && curCountBombs != maxCountBombs) {
             long timeCreate = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
             createBombTime.add(timeCreate);
-            bombService.createBomb(board, radius, xCenter, yCenter, timeCreate);
+            bombService.createBomb(radius, xCenter, yCenter, timeCreate);
             curCountBombs++;
         }
         else {
@@ -171,6 +171,18 @@ public class Bomber {
 
     public void setCurCountBombs(int curCountBombs) {
         this.curCountBombs = curCountBombs;
+    }
+
+    public int getXCenter() {
+        Vector2 centerBomber = new Vector2();
+        boardBomber.getCenter(centerBomber);
+        return (int)centerBomber.x/sizePx;
+    }
+
+    public int getYCenter() {
+        Vector2 centerBomber = new Vector2();
+        boardBomber.getCenter(centerBomber);
+        return (int)centerBomber.y/sizePx;
     }
 
     @Override

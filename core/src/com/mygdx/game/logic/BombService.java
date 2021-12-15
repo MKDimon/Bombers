@@ -12,24 +12,45 @@ import java.util.List;
 public class BombService {
     private final List<Bomber> bombers = new ArrayList<>();
     private final List<Bomb> bombs = new ArrayList<>();
-    private long timeExplode = 4;
+    private final List<ExplodeWave> waves = new ArrayList<>();
+    private final long timeExplodeBomb = 4;
+    private final long timeExplodeWave = 1;
+    private final String explodeTexturePath = "explode.png";
+    private final Board board;
 
+    public BombService(Board board) {
+        this.board = board;
+    }
 
-    public boolean createBomb(Board board, int radius, int x, int y, long timeCreate) {
-
+    public boolean createBomb(int radius, int x, int y, long timeCreate) {
         Bomb bomb = new Bomb(x, y, radius, timeCreate);
         board.setItem(x,y, bomb);
         bombs.add(bomb);
         return true;
     }
 
-    public boolean explode(Board board, long currentTime) {
+    public boolean explode(long currentTime) {
         for(Bomb bomb : bombs){
-            if(currentTime - bomb.getTimeCreate() > timeExplode){
-                board.setItem(bomb.getX(), bomb.getY(), new ExplodeWave("explode.png"));
+            if(currentTime - bomb.getTimeCreating() > timeExplodeBomb) {
+                ExplodeWave wave = new ExplodeWave(bomb.getX(), bomb.getY(), bomb.getRadius(), currentTime, explodeTexturePath);
+                board.setItem(bomb.getX(), bomb.getY(), wave);
+                waves.add(wave);
             }
         }
         return true;
+    }
+
+    public void explodeWave(long currentTime) {
+        for (ExplodeWave wave: waves) {
+            if (currentTime - wave.getTimeCreating() > timeExplodeWave) {
+                for (Bomber bomber: bombers) {
+                    for (int i = 0; i < wave.getRadius()*2 + 1; i++) {
+                        board.itemActivate(wave.getX() - wave.getRadius() + i, wave.getY(), bomber);
+                        board.itemActivate(wave.getX(), wave.getY() - wave.getRadius() + i, bomber);
+                    }
+                }
+            }
+        }
     }
 
     public void addBomber(Bomber bomber) {

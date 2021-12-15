@@ -8,7 +8,6 @@ import com.mygdx.game.Animator;
 import com.mygdx.game.model.Bomber;
 import com.mygdx.game.model.Cell;
 
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class Bomb implements AbstractItem {
@@ -18,7 +17,7 @@ public class Bomb implements AbstractItem {
     private float timeAnimation = 2;
     private Texture texture;
     private Animator animator;
-    private long timeCreate;
+    private long timeCreating;
     private long animationTime;
 
     public Bomb(int x, int y, int radius, long timeCreate) {
@@ -26,7 +25,7 @@ public class Bomb implements AbstractItem {
         this.y = y;
         this.radius = radius;
         texture = new Texture("bomb.png");
-        this.timeCreate = timeCreate;
+        this.timeCreating = timeCreate;
         this.animationTime = timeCreate;
         animator = new Animator(new TextureRegion(texture), 1, 3, timeAnimation);
     }
@@ -39,8 +38,8 @@ public class Bomb implements AbstractItem {
         return y;
     }
 
-    public long getTimeCreate() {
-        return timeCreate;
+    public long getTimeCreating() {
+        return timeCreating;
     }
 
     public int getRadius() {

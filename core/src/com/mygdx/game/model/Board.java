@@ -20,6 +20,9 @@ public class Board {
     }
 
     public boolean itemActivate(int x, int y, Bomber bomber) {
+        if (x < 0 || y < 0 || x >= gameMap.length || y >= gameMap[0].length) {
+            return false;
+        }
         return gameMap[x][y].changeParams(bomber);
     }
 

@@ -1,13 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.logic.BoardService;
 import com.mygdx.game.logic.BombService;
 import com.mygdx.game.logic.GameLogic;
@@ -33,7 +27,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		batch = new SpriteBatch();
 		backGround = new BackGround();
-		bombService = new BombService();
+		bombService = new BombService(board);
 		board = BoardService.createBoard("testMap.txt");
 
 		Cell one = BoardService.getEmptyCell(board, false);
@@ -66,7 +60,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			long currentTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 			gameLogic.checkEvent();
 			gameLogic.checkTime(currentTime);
-			bombService.explode(board, currentTime);
+			bombService.explode(currentTime);
+			bombService.explodeWave(currentTime);
 			//тут будет описана логика обновлений игры
 		}
 	}
