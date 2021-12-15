@@ -46,21 +46,35 @@ public class BombService {
         return true;
     }
 
+    /**
+     * Распространение волны по вектору
+     * @param wave Нужнная волна
+     * @param x  - Вектор по X
+     * @param y  - Вектор по Y
+     */
+    private void wavePropagation(ExplodeWave wave, int x, int y) {
+        for (int i = 1; i <= wave.getRadius(); i++) {
+            if (!board.itemActivate(wave.getX() + i * x, wave.getY() + i * y, null)) {
+                break;
+            }
+            int finalI = i;
+            bombers.stream().filter(bomber -> board.contains(wave.getX() + finalI * x,
+                    wave.getY() + finalI * y, bomber)).forEach(Bomber::dead);
+        }
+    }
+
     public void explodeWave(long currentTime) {
         Iterator<ExplodeWave> itWave = waves.iterator();
         while (itWave.hasNext()) {
             ExplodeWave wave = itWave.next();
-            for (Bomber bomber: bombers) {
-                for (int i = 0; i < wave.getRadius()*2 + 1; i++) {
-                    if (board.contains(wave.getX() - wave.getRadius() + i, wave.getY(), bomber) ||
-                        board.contains(wave.getX(), wave.getY() - wave.getRadius() + i, bomber))
-                    {
-                        bomber.dead();
-                    }
-                    board.itemActivate(wave.getX() - wave.getRadius() + i, wave.getY(), null);
-                    board.itemActivate(wave.getX(), wave.getY() - wave.getRadius() + i, null);
-                }
-            }
+
+            bombers.stream().filter(x -> board.contains(wave.getX(), wave.getY(), x)).forEach(Bomber::dead);
+
+            wavePropagation(wave, 1, 0);
+            wavePropagation(wave, -1, 0);
+            wavePropagation(wave, 0, 1);
+            wavePropagation(wave, 0, -1);
+
             if (currentTime - wave.getTimeCreating() > timeExplodeWave / 1000.) {
                 board.setItem(wave.getX(), wave.getY(), null);
                 itWave.remove();
