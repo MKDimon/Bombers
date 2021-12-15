@@ -7,6 +7,7 @@ import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Bomber;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class BombService {
@@ -16,6 +17,8 @@ public class BombService {
     private final long timeExplodeBomb = 4;
     private final long timeExplodeWave = 1;
     private final String explodeTexturePath = "explode.png";
+    private final String explodeTextureWavePath = "explodeWave.png";
+    private final String explodeTextureWaveEndPath = "explodeWaveEnd.png";
     private final Board board;
 
     public BombService(Board board) {
@@ -30,25 +33,32 @@ public class BombService {
     }
 
     public boolean explode(long currentTime) {
-        for(Bomb bomb : bombs){
+        Iterator<Bomb> itBomb = bombs.iterator();
+        while (itBomb.hasNext()){
+            Bomb bomb = itBomb.next();
             if(currentTime - bomb.getTimeCreating() > timeExplodeBomb) {
                 ExplodeWave wave = new ExplodeWave(bomb.getX(), bomb.getY(), bomb.getRadius(), currentTime, explodeTexturePath);
                 board.setItem(bomb.getX(), bomb.getY(), wave);
                 waves.add(wave);
+                itBomb.remove();
             }
         }
         return true;
     }
 
     public void explodeWave(long currentTime) {
-        for (ExplodeWave wave: waves) {
-            if (currentTime - wave.getTimeCreating() > timeExplodeWave) {
-                for (Bomber bomber: bombers) {
-                    for (int i = 0; i < wave.getRadius()*2 + 1; i++) {
-                        board.itemActivate(wave.getX() - wave.getRadius() + i, wave.getY(), bomber);
-                        board.itemActivate(wave.getX(), wave.getY() - wave.getRadius() + i, bomber);
-                    }
+        Iterator<ExplodeWave> itWave = waves.iterator();
+        while (itWave.hasNext()) {
+            ExplodeWave wave = itWave.next();
+            for (Bomber bomber: bombers) {
+                for (int i = 0; i < wave.getRadius()*2 + 1; i++) {
+                    board.itemActivate(wave.getX() - wave.getRadius() + i, wave.getY(), bomber);
+                    board.itemActivate(wave.getX(), wave.getY() - wave.getRadius() + i, bomber);
                 }
+            }
+            if (currentTime - wave.getTimeCreating() > timeExplodeWave) {
+                board.setItem(wave.getX(), wave.getY(), null);
+                itWave.remove();
             }
         }
     }

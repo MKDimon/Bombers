@@ -48,7 +48,6 @@ public class Animator {
 
         currentFrameTime += dt;
         if (currentFrameTime >= maxFrameTime){
-        System.out.println("CurrentFrameTime "+currentFrameTime);
             frameX++;
             currentFrameTime = 0;
         }
