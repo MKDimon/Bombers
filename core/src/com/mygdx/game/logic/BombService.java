@@ -1,6 +1,8 @@
 package com.mygdx.game.logic;
 
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.item.Bomb;
 import com.mygdx.game.item.ExplodeWave;
 import com.mygdx.game.model.Board;
@@ -16,9 +18,7 @@ public class BombService {
     private final List<ExplodeWave> waves = new ArrayList<>();
     private final long timeExplodeBomb = 4;
     private final long timeExplodeWave = 1;
-    private final String explodeTexturePath = "explode.png";
-    private final String explodeTextureWavePath = "explodeWave.png";
-    private final String explodeTextureWaveEndPath = "explodeWaveEnd.png";
+
     private final Board board;
 
     public BombService(Board board) {
@@ -33,12 +33,14 @@ public class BombService {
     }
 
     public boolean explode(long currentTime) {
-        for (Bomb bomb : bombs) {
+        Iterator<Bomb> itBomb = bombs.iterator();
+        while (itBomb.hasNext()) {
+            Bomb bomb = itBomb.next();
             if (currentTime - bomb.getTimeCreating() > timeExplodeBomb) {
-                ExplodeWave wave = new ExplodeWave(bomb.getX(), bomb.getY(), bomb.getRadius(), currentTime, explodeTexturePath);
+                ExplodeWave wave = new ExplodeWave(bomb.getX(), bomb.getY(), bomb.getRadius(), currentTime);
                 board.setItem(bomb.getX(), bomb.getY(), wave);
-                //здесь нужно добавить добавление волн
                 waves.add(wave);
+                itBomb.remove();
             }
         }
         return true;
@@ -51,7 +53,7 @@ public class BombService {
             for (Bomber bomber: bombers) {
                 for (int i = 0; i < wave.getRadius()*2 + 1; i++) {
                     if (board.contains(wave.getX() - wave.getRadius() + i, wave.getY(), bomber) ||
-                    board.contains(wave.getX(), wave.getY() - wave.getRadius() + i, bomber)) {
+                        board.contains(wave.getX(), wave.getY() - wave.getRadius() + i, bomber)) {
                         bomber.dead();
                     }
                 }
