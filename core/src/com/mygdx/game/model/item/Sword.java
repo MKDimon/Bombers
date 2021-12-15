@@ -1,20 +1,19 @@
-package com.mygdx.game.item;
-
+package com.mygdx.game.model.item;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.model.Bomber;
 import com.mygdx.game.model.Cell;
 
-public class Boots implements AbstractItem {
-    private final Texture texture;
-    public Boots() {
-        texture = new Texture("Boots.png");
-    }
+public class Sword implements AbstractItem {
+    private Texture texture = new Texture("explodeWaveEnd.png");
+
+    public Sword(){}
+
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
         if (bomber != null) {
-            bomber.addParam(0, 0.2f, false);
+            bomber.addParam(1, 0, false);
             cell.setItem(null);
         }
         return true;

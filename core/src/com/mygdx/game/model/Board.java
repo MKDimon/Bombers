@@ -2,13 +2,7 @@ package com.mygdx.game.model;
 
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.item.AbstractItem;
-import com.mygdx.game.item.Bomb;
-
-import java.awt.*;
-import java.util.ArrayList;
+import com.mygdx.game.model.item.AbstractItem;
 
 public class Board {
 

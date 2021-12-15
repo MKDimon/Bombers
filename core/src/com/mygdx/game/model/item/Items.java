@@ -1,4 +1,4 @@
-package com.mygdx.game.item;
+package com.mygdx.game.model.item;
 
 public enum Items {
     SWORD(0),

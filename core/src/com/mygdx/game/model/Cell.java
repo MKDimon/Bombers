@@ -1,10 +1,9 @@
 package com.mygdx.game.model;
 
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.mygdx.game.item.AbstractItem;
+import com.mygdx.game.model.item.AbstractItem;
 
 public class Cell {
     private AbstractItem item;
@@ -33,12 +32,16 @@ public class Cell {
         return true;
     }
 
+    private boolean contains(float x, float y) {
+        return boardCell.x < x && boardCell.x + boardCell.width > x && boardCell.y < y && boardCell.y + boardCell.height > y;
+    }
+
     public boolean containsBomber(Bomber bomber){
         Rectangle bomberRect = bomber.getBoardBomber();
-        return boardCell.contains(bomberRect.x, bomberRect.y) ||
-                boardCell.contains(bomberRect.x, bomberRect.y+bomberRect.getHeight()-1) ||
-                boardCell.contains(bomberRect.x+bomberRect.getWidth()-1, bomberRect.y+bomberRect.getHeight()-1) ||
-                boardCell.contains(bomberRect.x+bomberRect.getWidth()-1, bomberRect.y);
+        return contains(bomberRect.x, bomberRect.y) ||
+                contains(bomberRect.x, bomberRect.y+bomberRect.getHeight()) ||
+                contains(bomberRect.x+bomberRect.getWidth(), bomberRect.y+bomberRect.getHeight()) ||
+                contains(bomberRect.x+bomberRect.getWidth(), bomberRect.y);
 
     }
     public void render(SpriteBatch batch){

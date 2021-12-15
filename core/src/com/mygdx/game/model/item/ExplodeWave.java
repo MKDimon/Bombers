@@ -1,12 +1,9 @@
-package com.mygdx.game.item;
+package com.mygdx.game.model.item;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.model.Bomber;
 import com.mygdx.game.model.Cell;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExplodeWave implements AbstractItem{
 
@@ -26,7 +23,7 @@ public class ExplodeWave implements AbstractItem{
 
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
-        if (bomber != null)
+        if (bomber != null && cell.containsBomber(bomber))
             bomber.dead();
         return true;
     }

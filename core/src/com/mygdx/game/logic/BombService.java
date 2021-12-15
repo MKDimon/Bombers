@@ -1,8 +1,8 @@
 package com.mygdx.game.logic;
 
 
-import com.mygdx.game.item.Bomb;
-import com.mygdx.game.item.ExplodeWave;
+import com.mygdx.game.model.item.Bomb;
+import com.mygdx.game.model.item.ExplodeWave;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Bomber;
 
@@ -14,7 +14,7 @@ public class BombService {
     private final List<Bomber> bombers = new ArrayList<>();
     private final List<Bomb> bombs = new ArrayList<>();
     private final List<ExplodeWave> waves = new ArrayList<>();
-    private final long timeExplodeBomb = 4;   // sc
+    private final long timeExplodeBomb = 2;   // sc
     private final long timeExplodeWave = 300; //mlsc
     private final String explodeTexturePath = "explode.png";
     private final String explodeTextureWavePath = "explodeWave.png";

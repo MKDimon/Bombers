@@ -1,9 +1,9 @@
 package com.mygdx.game.logic;
 
 
-import com.mygdx.game.item.AbstractItem;
-import com.mygdx.game.item.Box;
-import com.mygdx.game.item.Wall;
+import com.mygdx.game.model.item.AbstractItem;
+import com.mygdx.game.model.item.Box;
+import com.mygdx.game.model.item.Wall;
 import com.mygdx.game.model.Board;
 import com.mygdx.game.model.Cell;
 
@@ -21,21 +21,6 @@ public class BoardService {
         mapItem.put('*', new Box());
     }
 
-    /*
-    * ###############################
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-    * ###############################
-    * */
     public static Board createBoard(String mapFile) {
 
         try(BufferedReader br = new BufferedReader(new FileReader(mapFile))) {

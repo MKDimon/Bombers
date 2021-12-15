@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Animator;
-import com.mygdx.game.item.AbstractItem;
 import com.mygdx.game.logic.BombService;
 
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class Bomber {
 
     //скорость передвижения
     private float speed              = 0.5f;
+    private final float maxSpeed     = 0.8f;
     private float speedCycle         = 12;
     //скорость цикла анимации
     private float speedAnimation     = 0.3f;
@@ -66,7 +66,7 @@ public class Bomber {
         textureDead = new Texture(pathToTextureDead);
 
         bomberAnimation = new Animator(new TextureRegion(texture), 4, 6, speedCycle);
-        boardBomber = new Rectangle(pos.x+2, pos.y+2, 13,13);
+        boardBomber = new Rectangle(pos.x+3, pos.y+1, 10,10);
     }
 
     //задача action выполнить действие пришедшее от пользователя
@@ -93,6 +93,8 @@ public class Bomber {
                 board.itemActivate(xCenter + event.getX(),
                             yCenter + event.getY(), this))
             {
+                Vector2 vector2 = new Vector2();
+
                 move(event.getX() * speed, event.getY() * speed);
             }
         }
@@ -124,7 +126,7 @@ public class Bomber {
 
     public void addParam(int radius, float speed, boolean immortal) {
         this.radius += radius;
-        this.speed += speed;
+        this.speed = Math.min(speed + this.speed, maxSpeed);
         this.immortal |= immortal;
         timeGetImmortal = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
     }
@@ -195,6 +197,10 @@ public class Bomber {
         Vector2 centerBomber = new Vector2();
         boardBomber.getCenter(centerBomber);
         return (int)centerBomber.y/sizePx;
+    }
+
+    public Vector2 getPosition(){
+        return pos;
     }
 
     @Override

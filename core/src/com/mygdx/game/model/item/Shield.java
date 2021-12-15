@@ -1,4 +1,4 @@
-package com.mygdx.game.item;
+package com.mygdx.game.model.item;
 
 
 import com.badlogic.gdx.graphics.Texture;
@@ -6,15 +6,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.model.Bomber;
 import com.mygdx.game.model.Cell;
 
-public class Wall implements AbstractItem {
-    private Texture texture;
-    public Wall(){
-        texture = new Texture("Wall.png");
+public class Shield implements AbstractItem {
+    private final Texture texture;
+    public Shield() {
+        texture = new Texture("Sheild.png");
     }
-    //подумать как отрисовывать, каждую отдельно или нет?
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
-        return false;
+        if (bomber != null) {
+            bomber.addParam(0, 0, true);
+            cell.setItem(null);
+        }
+        return true;
     }
 
     @Override
