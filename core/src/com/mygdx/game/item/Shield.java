@@ -11,6 +11,8 @@ public class Shield implements AbstractItem {
     public Shield(){}
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
+        if (bomber != null)
+            bomber.addParam(0,0,true);
         return false;
     }
 

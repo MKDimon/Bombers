@@ -9,8 +9,11 @@ public class Sword implements AbstractItem {
     private Texture texture;
 
     public Sword(){}
+
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
+        if (bomber != null)
+            bomber.addParam(1,0,false);
         return false;
     }
 

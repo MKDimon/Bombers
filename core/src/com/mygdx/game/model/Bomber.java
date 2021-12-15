@@ -117,8 +117,10 @@ public class Bomber {
         batch.draw(bomberAnimation.getFrame(), pos.x, pos.y);
     }
 
-    private void addParam(AbstractItem item) {
-
+    public void addParam(int radius, float speed, boolean immortal) {
+        this.radius += radius;
+        this.speed += speed;
+        this.immortal |= immortal;
     }
 
     public Rectangle getBoardBomber() {
@@ -203,8 +205,11 @@ public class Bomber {
     }
 
     public void dead() {
+        if (immortal) {
+            immortal = false;
+            return;
+        }
         bomberAnimation = new Animator(new TextureRegion(textureDead), 1, 5, speedCycle);
-
         this.live = false;
     }
 

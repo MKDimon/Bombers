@@ -11,6 +11,8 @@ public class Boots implements AbstractItem {
     public Boots(){}
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
+        if (bomber != null)
+            bomber.addParam(0, 0.2f, false);
         return false;
     }
 
