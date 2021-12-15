@@ -53,15 +53,15 @@ public class Bomber {
     private long reloadingTime        = 2;
     private List<Long> createBombTime = new ArrayList<>();
 
-    public Bomber(int x, int y, Board board, BombService bombService) {
+    public Bomber(int x, int y, Board board, BombService bombService, String pathToTextureBomber, String pathToTextureDead) {
 
         this.board = board;
         this.bombService = bombService;
         bombService.addBomber(this);
 
         pos = new Vector2(sizePx * x, sizePx * y);
-        texture = new Texture("bomberSprite.png");
-        textureDead = new Texture("DeadSprite.png");
+        texture = new Texture(pathToTextureBomber);
+        textureDead = new Texture(pathToTextureDead);
 
         bomberAnimation = new Animator(new TextureRegion(texture), 4, 6, speedCycle);
         boardBomber = new Rectangle(pos.x+2, pos.y+2, 13,13);
@@ -110,6 +110,10 @@ public class Bomber {
 
     //отрисовывает бомбера
     public void render(SpriteBatch batch){
+        if(!live&&bomberAnimation.getFrameX() < 3) {
+            bomberAnimation.update(1);
+            batch.draw(bomberAnimation.getFrame(), pos.x, pos.y);
+        }
         batch.draw(bomberAnimation.getFrame(), pos.x, pos.y);
     }
 
@@ -192,5 +196,9 @@ public class Bomber {
         this.live = false;
     }
 
+    public void updateDead()
+    {
+        bomberAnimation.update(1);
+    }
     public boolean getLive() { return live; }
 }
