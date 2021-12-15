@@ -58,6 +58,10 @@ public class Cell {
         return item == null;
     }
 
+    public AbstractItem getItem() {
+        return item;
+    }
+
     public int getX() {
         return x;
     }
