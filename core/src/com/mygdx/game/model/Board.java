@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.item.AbstractItem;
 import com.mygdx.game.item.Bomb;
+import com.mygdx.game.item.ExplodeWave;
 
 import java.awt.*;
 import java.util.ArrayList;

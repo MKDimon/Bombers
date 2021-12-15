@@ -37,7 +37,7 @@ public class BombService {
         while (itBomb.hasNext()) {
             Bomb bomb = itBomb.next();
             if (currentTime - bomb.getTimeCreating() > timeExplodeBomb) {
-                ExplodeWave wave = new ExplodeWave(bomb.getX(), bomb.getY(), bomb.getRadius(), currentTime);
+                ExplodeWave wave = new ExplodeWave(bomb.getX(), bomb.getY(), bomb.getRadius(), currentTime, board);
                 board.setItem(bomb.getX(), bomb.getY(), wave);
                 waves.add(wave);
                 itBomb.remove();
