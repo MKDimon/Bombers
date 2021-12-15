@@ -26,6 +26,7 @@ public class Box implements AbstractItem {
         if (bomber == null) {
             Random rn = new Random();
             cell.setItem(mapItems.get(rn.nextInt(mapItems.size())));
+            System.out.println("BOX ACTIVATE");
         }
         return false;
     }

@@ -28,13 +28,16 @@ public class Board {
     }
 
     public boolean contains(int x, int y, Bomber bomber){
+        if (x < 0 || y < 0 || x >= gameMap.length || y >= gameMap[0].length) {
+            return false;
+        }
         return gameMap[x][y].containsBomber(bomber);
     }
 
     public void render(SpriteBatch batch){
-        for(int i = 0; i <gameMap.length; i++){
-            for(int j = 0; j < gameMap[i].length; j++){
-                gameMap[i][j].render(batch);
+        for (Cell[] cells : gameMap) {
+            for (Cell cell : cells) {
+                cell.render(batch);
             }
         }
     }

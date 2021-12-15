@@ -26,7 +26,8 @@ public class ExplodeWave implements AbstractItem{
 
     @Override
     public boolean changeParams(Cell cell, Bomber bomber) {
-        bomber.dead();
+        if (bomber != null)
+            bomber.dead();
         return true;
     }
 
