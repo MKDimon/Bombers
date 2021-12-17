@@ -8,12 +8,16 @@ import com.mygdx.game.model.Cell;
 
 public class Wall implements AbstractItem {
     private Texture texture;
+
     public Wall(){
         texture = new Texture("Wall.png");
     }
-    //подумать как отрисовывать, каждую отдельно или нет?
+
     @Override
-    public boolean changeParams(Cell cell, Bomber bomber) {
+    public void changeParams(Cell cell, Bomber bomber) {}
+
+    @Override
+    public boolean isAvailable() {
         return false;
     }
 

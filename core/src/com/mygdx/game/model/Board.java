@@ -14,11 +14,18 @@ public class Board {
         this.gameMap = gameMap;
     }
 
-    public boolean itemActivate(int x, int y, Bomber bomber) {
+    public void itemActivate(int x, int y, Bomber bomber) {
+        if (x < 0 || y < 0 || x >= gameMap.length || y >= gameMap[0].length) {
+            return;
+        }
+        gameMap[x][y].changeParams(bomber);
+    }
+
+    public boolean isAvailableCell(int x, int y, Bomber bomber) {
         if (x < 0 || y < 0 || x >= gameMap.length || y >= gameMap[0].length) {
             return false;
         }
-        return gameMap[x][y].changeParams(bomber);
+        return gameMap[x][y].isAvailable(bomber);
     }
 
     public boolean contains(int x, int y, Bomber bomber){

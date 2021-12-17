@@ -32,15 +32,19 @@ public class ExplodeWave implements AbstractItem{
     }
 
     @Override
-    public boolean changeParams(Cell cell, Bomber bomber) {
+    public void changeParams(Cell cell, Bomber bomber) {
         if (bomber != null && cell.containsBomber(bomber))
             bomber.dead();
+    }
+
+    @Override
+    public boolean isAvailable() {
         return true;
     }
 
     private void renderPropagation(SpriteBatch batch, int x, int y) {
         for (int i = 1; i <= radius; i++) {
-            if (!board.itemActivate(this.x + i * x, this.y + i * y, null)) {
+            if (!board.isAvailableCell(this.x + i * x, this.y + i * y, null)) {
                 break;
             }
             batch.draw(textureExplode, 16*(i * x+ this.x ), 16*(i * y + this.y));

@@ -8,15 +8,21 @@ import com.mygdx.game.model.Cell;
 
 public class Boots implements AbstractItem {
     private final Texture texture;
+
     public Boots() {
         texture = new Texture("Boots.png");
     }
+
     @Override
-    public boolean changeParams(Cell cell, Bomber bomber) {
+    public void changeParams(Cell cell, Bomber bomber) {
         if (bomber != null) {
             bomber.addParam(0, 0.1f, false);
             cell.setItem(null);
         }
+    }
+
+    @Override
+    public boolean isAvailable() {
         return true;
     }
 

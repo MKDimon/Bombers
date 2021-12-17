@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Animator;
 import com.mygdx.game.logic.BombService;
+import com.mygdx.game.logic.event.EventCommand;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -53,10 +54,9 @@ public class Bomber {
     private final BombService bombService;
 
     private long reloadingTime        = 2;
-    private List<Long> createBombTime = new ArrayList<>();
+    private List<Long> createdBombTime = new ArrayList<>();
 
     public Bomber(int x, int y, Board board, BombService bombService, String pathToTextureBomber, String pathToTextureDead) {
-
         this.board = board;
         this.bombService = bombService;
         bombService.addBomber(this);
@@ -69,40 +69,23 @@ public class Bomber {
         boardBomber = new Rectangle(pos.x+3, pos.y+1, 10,10);
     }
 
-    //задача action выполнить действие пришедшее от пользователя
-    public void action(EventType event) {
+    public void action(EventCommand event) {
         if (!live) { return; }
-        Vector2 centerBomber = new Vector2();
-        boardBomber.getCenter(centerBomber);
-        int xCenter = (int)centerBomber.x/sizePx;
-        int yCenter = (int)centerBomber.y/sizePx;
-        if (event == EventType.SET_BOMB && curCountBombs != maxCountBombs) {
-            long timeCreate = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-            createBombTime.add(timeCreate);
-            bombService.createBomb(radius, xCenter, yCenter, timeCreate);
-            curCountBombs++;
-        }
-        else if (event != EventType.SET_BOMB){
-            bomberAnimation.setFrameY(event.getFrameId());
-            // Смотрим клетку по направлению движения и
-            // клетки слева и справа
-            if (board.itemActivate(xCenter + event.getX() + event.getY(),
-                            yCenter + event.getY() + event.getX(), this) &&
-                board.itemActivate(xCenter + event.getX() - event.getY(),
-                            yCenter + event.getY() - event.getX(), this) &&
-                board.itemActivate(xCenter + event.getX(),
-                            yCenter + event.getY(), this))
-            {
-                Vector2 vector2 = new Vector2();
+        event.apply(this);
+    }
 
-                move(event.getX() * speed, event.getY() * speed);
-            }
+    public void setBomb() {
+        if (curCountBombs != maxCountBombs) {
+            long timeCreate = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+            createdBombTime.add(timeCreate);
+            bombService.createBomb(radius, getXCenter(), getYCenter(), timeCreate);
+            curCountBombs++;
         }
     }
 
     public void checkTime(long currentTime){
         if(curCountBombs > 0){
-            Iterator<Long> iterator = createBombTime.iterator();
+            Iterator<Long> iterator = createdBombTime.iterator();
             while (iterator.hasNext()){
                 if(currentTime - iterator.next() > reloadingTime){
                     curCountBombs--;
@@ -135,12 +118,19 @@ public class Bomber {
         return boardBomber;
     }
 
-    public void move(float x, float y) {
-        pos.x += x;
-        pos.y += y;
-        boardBomber.x += x;
-        boardBomber.y += y;
-        bomberAnimation.update(speedAnimation);
+    public void move(int x, int y) {
+        int xCenter = getXCenter();
+        int yCenter = getYCenter();
+        if (    board.isAvailableCell(xCenter + x + y, yCenter + y + x, this) &&
+                board.isAvailableCell(xCenter + x - y, yCenter + y - x, this) &&
+                board.isAvailableCell(xCenter + x, yCenter + y, this)) {
+            board.itemActivate(xCenter + x, yCenter + y, this);
+            pos.x += x * speed;
+            pos.y += y * speed;
+            boardBomber.x += x * speed;
+            boardBomber.y += y * speed;
+            bomberAnimation.update(speedAnimation);
+        }
     }
 
     public Texture getTexture() {
@@ -197,6 +187,10 @@ public class Bomber {
         Vector2 centerBomber = new Vector2();
         boardBomber.getCenter(centerBomber);
         return (int)centerBomber.y/sizePx;
+    }
+
+    public void setFrameY(int id) {
+        bomberAnimation.setFrameY(id);
     }
 
     public Vector2 getPosition(){

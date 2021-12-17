@@ -54,7 +54,8 @@ public class BombService {
      */
     private void wavePropagation(ExplodeWave wave, int x, int y) {
         for (int i = 1; i <= wave.getRadius(); i++) {
-            if (!board.itemActivate(wave.getX() + i * x, wave.getY() + i * y, null)) {
+            board.itemActivate(wave.getX() + i * x, wave.getY() + i * y, null);
+            if (!board.isAvailableCell(wave.getX() + i * x, wave.getY() + i * y, null)) {
                 break;
             }
             int finalI = i;

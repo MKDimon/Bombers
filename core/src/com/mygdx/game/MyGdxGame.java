@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.logic.BoardService;
 import com.mygdx.game.logic.BombService;
+import com.mygdx.game.logic.Configuration;
 import com.mygdx.game.logic.GameLogic;
 import com.mygdx.game.model.*;
 
@@ -24,17 +25,18 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		Configuration configs = Configuration.loadConfigs("configs.json");
 
 		batch = new SpriteBatch();
 		backGround = new BackGround();
-		board = BoardService.createBoard("testMap.txt");
+		board = BoardService.createBoard(configs.getPathToMap());
 		bombService = new BombService(board);
 
 		Cell one = BoardService.getEmptyCell(board, true);
 		Cell two = BoardService.getEmptyCell(board, false);
 
-		Bomber bomberOne = new Bomber(one.getX(), one.getY(), board, bombService, "bomberSpritePlayer1.png", "DeadSpritePlayer1.png");
-		Bomber bomberTwo = new Bomber(two.getX(), two.getY(), board, bombService, "bomberSpritePlayer2.png", "DeadSpritePlayer2.png");
+		Bomber bomberOne = new Bomber(one.getX(), one.getY(), board, bombService, configs.getPathToTextureBomberOne(), configs.getPathToTextureDeadBomberOne());
+		Bomber bomberTwo = new Bomber(two.getX(), two.getY(), board, bombService, configs.getPathToTextureBomberTwo(), configs.getPathToTextureDeadBomberTwo());
 
 		List<Bomber> bombers = new ArrayList<>();
 		bombers.add(bomberOne);

@@ -6,6 +6,7 @@ import com.mygdx.game.model.Bomber;
 import com.mygdx.game.model.Cell;
 
 public interface AbstractItem {
-    boolean changeParams(Cell cell, Bomber bomber);
+    void changeParams(Cell cell, Bomber bomber);
+    boolean isAvailable();
     void render(SpriteBatch batch, float x, float y);
 }

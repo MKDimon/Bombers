@@ -8,15 +8,21 @@ import com.mygdx.game.model.Cell;
 
 public class Shield implements AbstractItem {
     private final Texture texture;
+
     public Shield() {
         texture = new Texture("Sheild.png");
     }
+
     @Override
-    public boolean changeParams(Cell cell, Bomber bomber) {
+    public void changeParams(Cell cell, Bomber bomber) {
         if (bomber != null) {
             bomber.addParam(0, 0, true);
             cell.setItem(null);
         }
+    }
+
+    @Override
+    public boolean isAvailable() {
         return true;
     }
 

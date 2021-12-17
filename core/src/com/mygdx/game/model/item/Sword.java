@@ -11,11 +11,15 @@ public class Sword implements AbstractItem {
     public Sword(){}
 
     @Override
-    public boolean changeParams(Cell cell, Bomber bomber) {
+    public void changeParams(Cell cell, Bomber bomber) {
         if (bomber != null) {
             bomber.addParam(1, 0, false);
             cell.setItem(null);
         }
+    }
+
+    @Override
+    public boolean isAvailable() {
         return true;
     }
 

@@ -47,7 +47,10 @@ public class Bomb implements AbstractItem {
     }
 
     @Override
-    public boolean changeParams(Cell cell, Bomber bomber) {
+    public void changeParams(Cell cell, Bomber bomber) {}
+
+    @Override
+    public boolean isAvailable() {
         return false;
     }
 

@@ -41,6 +41,7 @@ public class Animator {
     }
 
     public void setFrameY(int frameY) {
+        if (frameY < 0) return;
         this.frameY = frameY;
     }
 

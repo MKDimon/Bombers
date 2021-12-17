@@ -2,6 +2,7 @@ package com.mygdx.game.logic;
 
 
 import com.badlogic.gdx.Input;
+import com.mygdx.game.logic.event.*;
 import com.mygdx.game.model.EventType;
 
 import java.util.HashMap;
@@ -10,24 +11,24 @@ import java.util.List;
 import java.util.Map;
 
 public class GDXController {
-    private static Map<Integer, EventType> map1 = new HashMap<>();
-    private static Map<Integer, EventType> map2 = new HashMap<>();
+    private static Map<Integer, EventCommand> map1 = new HashMap<>();
+    private static Map<Integer, EventCommand> map2 = new HashMap<>();
 
     private static List<Integer> list1 = new LinkedList<>();
     private static List<Integer> list2 = new LinkedList<>();
 
     static {
-        map1.put(Input.Keys.A, EventType.MOVE_LEFT);
-        map1.put(Input.Keys.W, EventType.MOVE_UP);
-        map1.put(Input.Keys.S, EventType.MOVE_DOWN);
-        map1.put(Input.Keys.D, EventType.MOVE_RIGHT);
-        map1.put(Input.Keys.SPACE, EventType.SET_BOMB);
+        map1.put(Input.Keys.A, new EventMoveLeft());
+        map1.put(Input.Keys.W, new EventMoveUp());
+        map1.put(Input.Keys.S, new EventMoveDown());
+        map1.put(Input.Keys.D, new EventMoveRight());
+        map1.put(Input.Keys.SPACE, new EventSetBomb());
 
-        map2.put(Input.Keys.LEFT, EventType.MOVE_LEFT);
-        map2.put(Input.Keys.UP, EventType.MOVE_UP);
-        map2.put(Input.Keys.DOWN, EventType.MOVE_DOWN);
-        map2.put(Input.Keys.RIGHT, EventType.MOVE_RIGHT);
-        map2.put(Input.Keys.ENTER, EventType.SET_BOMB);
+        map2.put(Input.Keys.LEFT, new EventMoveLeft());
+        map2.put(Input.Keys.UP, new EventMoveUp());
+        map2.put(Input.Keys.DOWN, new EventMoveDown());
+        map2.put(Input.Keys.RIGHT, new EventMoveRight());
+        map2.put(Input.Keys.ENTER, new EventSetBomb());
 
         list1.add(Input.Keys.A); list1.add(Input.Keys.W);
         list1.add(Input.Keys.S); list1.add(Input.Keys.D);
@@ -38,8 +39,8 @@ public class GDXController {
         list2.add(Input.Keys.ENTER);
     }
 
-    public static EventType getEventTypeOne(int key) {
-        return map1.getOrDefault(key, EventType.NONE);
+    public static EventCommand getEventTypeOne(int key) {
+        return map1.getOrDefault(key, new NoEvent());
     }
 
     public static List<Integer> getList1() {
@@ -50,7 +51,7 @@ public class GDXController {
         return list2;
     }
 
-    public static EventType getEventTypeTwo(int key) {
-        return map2.getOrDefault(key, EventType.NONE);
+    public static EventCommand getEventTypeTwo(int key) {
+        return map2.getOrDefault(key, new NoEvent());
     }
 }

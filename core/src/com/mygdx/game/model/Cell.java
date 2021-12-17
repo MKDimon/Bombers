@@ -10,24 +10,25 @@ public class Cell {
     private final int x;
     private final int y;
     private Rectangle boardCell;
+    private final int sizePx = 16;
 
     public Cell(AbstractItem item, int  x, int y) {
         this.item = item;
         this.x = x;
         this.y = y;
-        boardCell = new Rectangle(x*16, y*16, 16,16);
+        boardCell = new Rectangle(x*sizePx, y*sizePx, sizePx,sizePx);
     }
 
-    // клетка знает о себе, но не знает какую сторону бомбера проверять, видимо нужно чтобы это проверялось еще до, а
-    // это получается нужно дергать клетку аж в бомбера, что видимо есть плохо
-    public boolean changeParams(Bomber bomber) {
-        if(item == null) {
-            return true;
+    public void changeParams(Bomber bomber) {
+        if(item != null && (bomber == null || containsBomber(bomber))) {
+            item.changeParams(this, bomber);
         }
-        //
-        if(bomber == null || containsBomber(bomber))
-        {
-            return item.changeParams(this, bomber);
+    }
+
+    public boolean isAvailable(Bomber bomber) {
+        if (item == null) return true;
+        if (bomber == null || containsBomber(bomber)) {
+            return item.isAvailable();
         }
         return true;
     }
@@ -46,7 +47,7 @@ public class Cell {
     }
     public void render(SpriteBatch batch){
         if(item!=null) {
-            item.render(batch, x*16, y*16);
+            item.render(batch, x*sizePx, y*sizePx);
         }
     }
 

@@ -22,12 +22,16 @@ public class Box implements AbstractItem {
     }
 
     @Override
-    public boolean changeParams(Cell cell, Bomber bomber) {
+    public void changeParams(Cell cell, Bomber bomber) {
         if (bomber == null) {
             Random rn = new Random();
             cell.setItem(mapItems.get(rn.nextInt(mapItems.size())));
             System.out.println("BOX ACTIVATE");
         }
+    }
+
+    @Override
+    public boolean isAvailable() {
         return false;
     }
 
