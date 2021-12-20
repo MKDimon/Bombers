@@ -23,6 +23,17 @@ public class MyGdxGame extends ApplicationAdapter {
 	private GameLogic gameLogic;
 	private BombService bombService;
 
+	private enum Angle {
+		LEFT_DOWN(true),
+		RIGHT_UP(false);
+
+		private boolean type;
+
+		Angle(boolean type) {
+			this.type = type;
+		}
+	}
+
 	@Override
 	public void create () {
 		Configuration configs = Configuration.loadConfigs("configs.json");
@@ -32,8 +43,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		board = BoardService.createBoard(configs.getPathToMap());
 		bombService = new BombService(board);
 
-		Cell one = BoardService.getEmptyCell(board, true);
-		Cell two = BoardService.getEmptyCell(board, false);
+		Cell one = BoardService.getEmptyCell(board, Angle.LEFT_DOWN.type);
+		Cell two = BoardService.getEmptyCell(board, Angle.RIGHT_UP.type);
 
 		Bomber bomberOne = new Bomber(one.getX(), one.getY(), board, bombService, configs.getPathToTextureBomberOne(), configs.getPathToTextureDeadBomberOne());
 		Bomber bomberTwo = new Bomber(two.getX(), two.getY(), board, bombService, configs.getPathToTextureBomberTwo(), configs.getPathToTextureDeadBomberTwo());

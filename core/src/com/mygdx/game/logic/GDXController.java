@@ -3,7 +3,6 @@ package com.mygdx.game.logic;
 
 import com.badlogic.gdx.Input;
 import com.mygdx.game.logic.event.*;
-import com.mygdx.game.model.EventType;
 
 import java.util.HashMap;
 import java.util.LinkedList;

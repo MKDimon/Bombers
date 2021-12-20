@@ -14,36 +14,31 @@ public class BombService {
     private final List<Bomber> bombers = new ArrayList<>();
     private final List<Bomb> bombs = new ArrayList<>();
     private final List<ExplodeWave> waves = new ArrayList<>();
-    private final long timeExplodeBomb = 2;   // sc
-    private final long timeExplodeWave = 300; //mlsc
-    private final String explodeTexturePath = "explode.png";
-    private final String explodeTextureWavePath = "explodeWave.png";
-    private final String explodeTextureWaveEndPath = "explodeWaveEnd.png";
+    private final long timeExplodeBomb = 3;     // sc
+    private final long timePropagateWave = 0;   //mlsc
     private final Board board;
 
     public BombService(Board board) {
         this.board = board;
     }
 
-    public boolean createBomb(int radius, int x, int y, long timeCreate) {
+    public void createBomb(int radius, int x, int y, long timeCreate) {
         Bomb bomb = new Bomb(x, y, radius, timeCreate);
         board.setItem(x,y, bomb);
         bombs.add(bomb);
-        return true;
     }
 
-    public boolean explode(long currentTime) {
+    public void explode(long currentTime) {
         Iterator<Bomb> itBomb = bombs.iterator();
         while (itBomb.hasNext()) {
             Bomb bomb = itBomb.next();
-            if (currentTime - bomb.getTimeCreating() > timeExplodeBomb) {
+            if (currentTime - bomb.getTimeCreating() >= timeExplodeBomb) {
                 ExplodeWave wave = new ExplodeWave(bomb.getX(), bomb.getY(), bomb.getRadius(), currentTime, board);
                 board.setItem(bomb.getX(), bomb.getY(), wave);
                 waves.add(wave);
                 itBomb.remove();
             }
         }
-        return true;
     }
 
     /**
@@ -52,7 +47,7 @@ public class BombService {
      * @param x  - Вектор по X
      * @param y  - Вектор по Y
      */
-    private void wavePropagation(ExplodeWave wave, int x, int y) {
+    private void propagateWave(ExplodeWave wave, int x, int y) {
         for (int i = 1; i <= wave.getRadius(); i++) {
             board.itemActivate(wave.getX() + i * x, wave.getY() + i * y, null);
             if (!board.isAvailableCell(wave.getX() + i * x, wave.getY() + i * y, null)) {
@@ -71,12 +66,12 @@ public class BombService {
 
             bombers.stream().filter(x -> board.contains(wave.getX(), wave.getY(), x)).forEach(Bomber::dead);
 
-            wavePropagation(wave, 1, 0);
-            wavePropagation(wave, -1, 0);
-            wavePropagation(wave, 0, 1);
-            wavePropagation(wave, 0, -1);
+            propagateWave(wave, 1, 0);
+            propagateWave(wave, -1, 0);
+            propagateWave(wave, 0, 1);
+            propagateWave(wave, 0, -1);
 
-            if (currentTime - wave.getTimeCreating() > timeExplodeWave / 1000.) {
+            if (currentTime - wave.getTimeCreating() > timePropagateWave) {
                 board.setItem(wave.getX(), wave.getY(), null);
                 itWave.remove();
             }

@@ -4,11 +4,8 @@ package com.mygdx.game.logic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.model.Bomber;
-import com.mygdx.game.model.EventType;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class GameLogic {
     private final List<Bomber> bombers;
@@ -32,7 +29,7 @@ public class GameLogic {
 
     public void checkTime(long time){
         for(Bomber bomber : bombers){
-            bomber.checkTime(time);
+            bomber.checkTimers(time);
         }
     }
 

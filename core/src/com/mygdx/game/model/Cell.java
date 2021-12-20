@@ -9,14 +9,14 @@ public class Cell {
     private AbstractItem item;
     private final int x;
     private final int y;
-    private Rectangle boardCell;
+    private Rectangle borderCell;
     private final int sizePx = 16;
 
     public Cell(AbstractItem item, int  x, int y) {
         this.item = item;
         this.x = x;
         this.y = y;
-        boardCell = new Rectangle(x*sizePx, y*sizePx, sizePx,sizePx);
+        borderCell = new Rectangle(x*sizePx, y*sizePx, sizePx,sizePx);
     }
 
     public void changeParams(Bomber bomber) {
@@ -34,7 +34,7 @@ public class Cell {
     }
 
     private boolean contains(float x, float y) {
-        return boardCell.x < x && boardCell.x + boardCell.width > x && boardCell.y < y && boardCell.y + boardCell.height > y;
+        return borderCell.x < x && borderCell.x + borderCell.width > x && borderCell.y < y && borderCell.y + borderCell.height > y;
     }
 
     public boolean containsBomber(Bomber bomber){

@@ -16,8 +16,4 @@ public class BackGround {
     public void render(SpriteBatch batch){
         batch.draw(bg, position.x, position.y);
     }
-
-    public void update(){
-        //здесь картинка будет меняться, если разбили предмет и тд
-    }
 }

@@ -7,31 +7,31 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class Configuration {
-    private final String pathToTextureBomberOne;
-    private final String pathToTextureDeadBomberOne;
-    private final String pathToTextureBomberTwo;
-    private final String pathToTextureDeadBomberTwo;
-    private final String pathToMap;
-
-    public Configuration(String pathToTextureBomberOne, String pathToTextureDeadBomberOne,
-                         String pathToTextureBomberTwo, String pathToTextureDeadBomberTwo,
-                         String pathToMap) {
-        this.pathToTextureBomberOne = pathToTextureBomberOne;
-        this.pathToTextureBomberTwo = pathToTextureBomberTwo;
-        this.pathToTextureDeadBomberOne = pathToTextureDeadBomberOne;
-        this.pathToTextureDeadBomberTwo = pathToTextureDeadBomberTwo;
-        this.pathToMap = pathToMap;
-    }
+    private String pathToTextureBomberOne = "bomberSpritePlayer1.png";
+    private String pathToTextureDeadBomberOne = "bomberSpritePlayer2.png";
+    private String pathToTextureBomberTwo = "DeadSpritePlayer1.png";
+    private String pathToTextureDeadBomberTwo = "DeadSpritePlayer2.png";
+    private String pathToMap = "testMap.txt";
 
     public static Configuration loadConfigs(String pathToConfigFile) {
         Gson gson = new Gson();
         try {
             JsonReader reader = new JsonReader(new FileReader(pathToConfigFile));
-            return gson.fromJson(reader, Configuration.class);
+            Configuration configuration = gson.fromJson(reader, Configuration.class);
+            configuration.nullToDefault();
+            return configuration;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void nullToDefault() {
+        this.pathToTextureBomberOne = (pathToTextureBomberOne == null)? this.pathToTextureBomberOne : pathToTextureBomberOne ;
+        this.pathToTextureBomberTwo = (pathToTextureBomberTwo == null)? this.pathToTextureBomberTwo : pathToTextureBomberTwo ;
+        this.pathToTextureDeadBomberOne = (pathToTextureDeadBomberOne == null)? this.pathToTextureDeadBomberOne : pathToTextureDeadBomberOne ;
+        this.pathToTextureDeadBomberTwo = (pathToTextureDeadBomberTwo == null)? this.pathToTextureDeadBomberTwo : pathToTextureDeadBomberTwo ;
+        this.pathToMap = (pathToMap == null)? this.pathToMap : pathToMap;
     }
 
     public String getPathToTextureBomberOne() {
